@@ -1,0 +1,535 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS E RESETS
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none; /* Impede que o usuário selecione textos por arrasto de toque no tablet */
+    -webkit-user-select: none;
+}
+
+body {
+    width: 1280px;
+    height: 800px;
+    overflow: hidden;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #f1eef6;
+    /* background-color: #0b0514; */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.4s ease-in-out;
+    display: flex;
+}
+
+/* Oculta barras de rolagem padrões para um visual mais limpo de aplicativo */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(138, 79, 214, 0.4);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(138, 79, 214, 0.6);
+}
+
+/* ==========================================================================
+   COLUNA DA ESQUERDA: SELEÇÃO DE DECK E REGRAS ESPECIAIS
+   ========================================================================== */
+.col-esquerda {
+    width: 440px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(138, 79, 214, 0.25);
+    z-index: 2;
+}
+
+/* Painel superior rolável da esquerda */
+.col-esq-principal {
+    flex: 1;
+    padding: 30px 25px;    
+    /*background: linear-gradient(135deg, rgba(20, 10, 35, 0.75) 0%, rgba(10, 5, 20, 0.85) 100%);    
+    */
+    background: linear-gradient(135deg, rgba(20, 10, 35, 0.55) 0%, rgba(10, 5, 20, 0.65) 100%);        
+    /*backdrop-filter: blur(12px);*/
+    /*-webkit-backdrop-filter: blur(12px);*/
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Seletor de Decks (Setas e Título) */
+.deck-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.btn-seta {
+    background: rgba(138, 79, 214, 0.15);
+    border: 1px solid #8a4fd6;
+    color: #cbb4e6;
+    width: 54px;
+    height: 54px;
+    font-size: 26px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.btn-seta:active {
+    background-color: #8a4fd6;
+    color: #ffffff;
+}
+
+.deck-titulo {
+    font-size: 34px;
+    font-weight: 700;
+    color: #e5d5fa;
+    text-shadow: 0 0 12px rgba(138, 79, 214, 0.5);
+    text-align: center;
+    flex: 1;
+}
+
+/* Containers com fade escuro para garantir legibilidade sobre o BG */
+.fade-container {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 22px;
+    border-left: 3px solid rgba(138, 79, 214, 0.6);
+}
+
+.rotulo-menor {
+    font-size: 12px;
+    color: #a492ba;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.sub-titulo {
+    font-size: 20px;
+    font-weight: 600;
+    color: #cbb4e6;
+    margin-bottom: 8px;
+}
+
+.texto-regras {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #e2daf0;
+}
+
+/* Painel inferior fixo da esquerda (Botão Iniciar) */
+.col-esq-secundaria {
+    height: 95px;
+    padding: 20px 25px;
+    background: rgba(8, 4, 15, 0.5);
+    border-top: 1px solid rgba(138, 79, 214, 0.2);
+    display: flex;
+}
+
+.btn-iniciar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #6c2da7 0%, #8a4fd6 100%);
+    border: 1px solid #a366f0;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(138, 79, 214, 0.35);
+    transition: transform 0.05s ease;
+}
+
+.btn-iniciar:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   COLUNA DA DIREITA: OPÇÕES E PARAMETRIZAÇÃO DO JOGO
+   ========================================================================== */
+.col-direita {
+    flex: 1;
+    height: 800px;
+    background: linear-gradient(135deg, rgba(18, 9, 28, 0.45) 0%, rgba(8, 4, 14, 0.55) 100%);
+    /*backdrop-filter: blur(10px);*/
+    /*-webkit-backdrop-filter: blur(10px);*/
+    padding: 30px 40px;
+    overflow-y: auto;
+    z-index: 2;
+}
+
+.titulo-secao-direita {
+    font-size: 26px;
+    font-weight: 600;
+    color: #f1eef6;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(138, 79, 214, 0.3);
+    padding-bottom: 8px;
+}
+
+/* Estrutura das Linhas de Configurações */
+.config-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.config-texto-bloco {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-right: 15px;
+}
+
+.config-rotulo-regular {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e5d5fa;
+}
+
+.config-rotulo-destaque {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d7bdf2;
+}
+
+/* Componente Combobox Customizado */
+.select-custom {
+    background: #251438;
+    border: 1px solid #8a4fd6;
+    color: #f1eef6;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+    width: 290px;
+    cursor: pointer;
+}
+
+/* Grupos de Tags Clicáveis (Substitutos de botões de rádio para toque) */
+.tag-grupo {
+    display: flex;
+    gap: 10px;
+}
+
+.tag-botao {
+    background: #231233;
+    border: 1px solid rgba(138, 79, 214, 0.4);
+    color: #bfaecf;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 64px;
+    text-align: center;
+    transition: all 0.15s ease;
+}
+
+.tag-botao.active {
+    background: #8a4fd6;
+    border-color: #b68ef2;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(138, 79, 214, 0.4);
+}
+
+/* Espaçador fantasma para manter as linhas simétricas na falta do "?" */
+.espacador-alinhamento {
+    width: 54px; 
+}
+
+/* Componente Checkbox Customizado Roxo */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #e2daf0;
+    flex: 1;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkmark {
+    width: 24px;
+    height: 24px;
+    background: #231233;
+    border: 2px solid #8a4fd6;
+    border-radius: 5px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.checkbox-container input:checked + .checkmark {
+    background: #8a4fd6;
+}
+
+.checkbox-container input:checked + .checkmark:after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+/* Groupbox Condicional Exclusiva */
+.groupbox-dinamica {
+    background: rgba(138, 79, 214, 0.08);
+    border: 1px dashed rgba(138, 79, 214, 0.4);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-top: -15px;
+    margin-bottom: 20px;
+    display: none; /* Controlado via JS dinamicamente */
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Botões "?" de Ajuda Fixados e Alinhados à Direita */
+.btn-ajuda {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #a492ba;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 20px;
+    flex-shrink: 0;
+    transition: background-color 0.1s;
+}
+
+.btn-ajuda:active {
+    background-color: #8a4fd6;
+    color: #ffffff;
+    border-color: #8a4fd6;
+}
+
+/* Painel de Regras Opcionais em Lista */
+.opcionais-painel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.opcional-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.18);
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.01);
+}
+
+/* ==========================================================================
+   JANELA DIALOG SUSPENSA (MODAL/SHOWMODAL)
+   ========================================================================== */
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: 800px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: none; /* Controlado via JS dinamicamente */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-caixa {
+    background: #1d0f2b;
+    border: 2px solid #8a4fd6;
+    box-shadow: 0 0 30px rgba(138, 79, 214, 0.6);
+    width: 500px;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.modal-texto {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e5d5fa;
+}
+
+.btn-modal-fechar {
+    background: #8a4fd6;
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    box-shadow: 0 2px 10px rgba(138, 79, 214, 0.3);
+    transition: background-color 0.1s;
+}
+
+.btn-modal-fechar:active {
+    background-color: #6c2da7;
+}
+
+.link-lista-container {
+    margin-top: -10px; /* Traz o link um pouco mais para perto do container de cima */
+    padding-left: 5px;
+    margin-bottom: 20px;
+}
+
+.link-lista {
+    font-size: 13px; /* Mesma fonte pequena dos créditos */
+    color: #a492ba;  /* Mesma cor cinza-arroxeada discreta */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline; /* Deixa claro que é um link, mas sem chamar muita atenção */
+    transition: color 0.15s ease;
+}
+
+.link-lista:active {
+    color: #e5d5fa; /* Dá um leve brilho quando for clicado no tablet */
+}
+
+.fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: 800px;
+    background: #0d0617;
+    z-index: 10000;
+    display: none; /* Controlado via JS */
+    flex-direction: column;
+}
+
+.visual-lista-header {
+    height: 70px;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    background: #170b24;
+    border-bottom: 2px solid #8a4fd6;
+}
+
+.btn-voltar-lista {
+    background: linear-gradient(90deg, #6c2da7 0%, #8a4fd6 100%);
+    border: 1px solid #a366f0;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.visual-lista-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px 40px;
+}
+
+/* Títulos de Categorias */
+.categoria-titulo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #d7bdf2;
+    margin: 25px 0 15px 0;
+    border-left: 4px solid #8a4fd6;
+    padding-left: 12px;
+}
+.categoria-titulo:first-child {
+    margin-top: 0;
+}
+
+/* Grade Flexível de Cartas */
+.cartas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.carta-item {
+    width: 231px;
+    height: 327px;
+    background: #251438;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(138, 79, 214, 0.2);
+    cursor: pointer;
+    transform: translateZ(0); /* Melhora performance no tablet */
+}
+
+.carta-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: fill;
+}
+
+/* ==========================================================================
+   MODAL DE ZOOM EM SUPER RESOLUÇÃO
+   ========================================================================== */
+.zoom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: 800px;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 11000;
+    display: none; /* Controlado via JS */
+    justify-content: center;
+    align-items: center;
+}
+
+#zoom-carta-img {
+    height: 760px; /* Ocupa quase toda a tela verticalmente mantendo proporções */
+    width: auto;
+    border-radius: 25px;
+    box-shadow: 0 0 30px rgba(138, 79, 214, 0.6);
+}

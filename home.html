@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuração da Horda</title>
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+    <!-- COLUNA ESQUERDA: LISTAGEM DE DECKS E REGRAS -->
+    <div class="col-esquerda">
+        <div class="col-esq-principal">
+            <div class="deck-selector">
+                <button class="btn-seta" id="btn-deck-anterior">&lt;</button>
+                <div class="deck-titulo" id="lbl-titulo">-</div>
+                <button class="btn-seta" id="btn-deck-proximo">&gt;</button>
+            </div>
+
+            <div class="fade-container">
+                <div class="rotulo-menor">Créditos do Deck</div>
+                <div class="texto-regras" id="lbl-creditos">-</div>
+            </div>
+
+            <div class="sub-titulo">Regras especiais</div>
+            <div class="fade-container">
+                <div class="texto-regras" id="lbl-regras">-</div>
+            </div>
+            <div class="link-lista-container">
+                <span class="link-lista" id="btn-ver-lista">Ver a lista</span>
+            </div>            
+        </div>
+
+        <div class="col-esq-secundaria">
+            <button class="btn-iniciar" id="btn-iniciar-partida">INICIAR</button>
+        </div>
+    </div>
+
+    <!-- COLUNA DIREITA: CONFIGURAÇÕES DA PARTIDA -->
+    <div class="col-direita">
+        <div class="titulo-secao-direita">Opções de Jogo</div>
+
+        <!-- Opção: Configuração Rápida -->
+        <div class="config-row">
+            <div class="config-texto-bloco">
+                <span class="config-rotulo-destaque">Configuração Rápida</span>
+            </div>
+            <select id="cmb-preset" class="select-custom">
+                <option value="Selecione uma opção predefinida" selected>Selecione uma opção predefinida</option>
+                <option value="1 Jogador">1 Jogador</option>
+                <option value="2 Jogadores">2 Jogadores</option>
+                <option value="3 Jogadores">3 Jogadores</option>
+                <option value="4 Jogadores">4 Jogadores</option>
+            </select>
+            <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Configuração Rápida)">?</button>
+        </div>
+
+        <!-- Opção: Pontos de Vida -->
+        <div class="config-row">
+            <div class="config-texto-bloco">
+                <span class="config-rotulo-regular">Pontos de vida inicial</span>
+            </div>
+            <div class="tag-grupo" id="grupo-vida">
+                <div class="tag-botao" data-val="20">20</div>
+                <div class="tag-botao active" data-val="40">40</div>
+                <div class="tag-botao" data-val="60">60</div>
+                <div class="tag-botao" data-val="80">80</div>
+            </div>
+            <!-- Espaço reservado para manter o alinhamento visual perfeito na ausência do botão "?" -->
+            <div class="espacador-alinhamento"></div>
+        </div>
+
+        <!-- Opção: Tamanho do Deck -->
+        <div class="config-row">
+            <div class="config-texto-bloco">
+                <span class="config-rotulo-regular">Tamanho do Deck</span>
+            </div>
+            <div class="tag-grupo" id="grupo-tamanho">
+                <div class="tag-botao" data-val="50%">50%</div>
+                <div class="tag-botao" data-val="75%">75%</div>
+                <div class="tag-botao active" data-val="100%">100%</div>
+                <div class="tag-botao" data-val="200%">200%</div>
+            </div>
+            <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Tamanho do Deck)">?</button>
+        </div>
+
+        <!-- Opção: Checkbox Regulador de Fichas -->
+        <div class="config-row">
+            <label class="checkbox-container">
+                <input type="checkbox" id="chk-regular">
+                <span class="checkmark"></span>
+                <span>Distribua uniformemente a quantidade de fichas e remova cartas fortes durante os primeiros turnos.</span>
+            </label>
+            <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Regulação do Deck)">?</button>
+        </div>
+
+        <!-- Groupbox Condicional Interna (Intensidade) -->
+        <div class="groupbox-dinamica" id="gb-regulagem">
+            <span class="config-rotulo-regular" style="font-size:14px; color:#cbb4e6;">Intensidade da Regulação:</span>
+            <div class="tag-grupo" id="grupo-intensidade">
+                <div class="tag-botao active" data-val="Padrão">Padrão</div>
+                <div class="tag-botao" data-val="Reduzida">Reduzida</div>
+            </div>
+        </div>
+
+        <!-- Opção: Compras por Turno -->
+        <div class="config-row">
+            <div class="config-texto-bloco">
+                <span class="config-rotulo-regular">Horda compra por turno:</span>
+            </div>
+            <div class="tag-grupo" id="grupo-compras">
+                <div class="tag-botao active" data-val="1">1</div>
+                <div class="tag-botao" data-val="2">2</div>
+                <div class="tag-botao" data-val="3">3</div>
+            </div>
+            <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Horda compra por turno)">?</button>
+        </div>
+
+        <!-- Opção: Marcos de Permanentes -->
+        <div class="config-row">
+            <div class="config-texto-bloco">
+                <span class="config-rotulo-regular">Conjure uma permanente aleatória ao alcançar o marco de:</span>
+            </div>
+            <div class="tag-grupo" id="grupo-marcos">
+                <div class="tag-botao" data-val="25%">25%</div>
+                <div class="tag-botao" data-val="50%">50%</div>
+                <div class="tag-botao" data-val="75%">75%</div>
+                <div class="tag-botao" data-val="100%">100%</div>
+            </div>
+            <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Marco de permanentes)">?</button>
+        </div>
+
+        <!-- Opção: Multiplicador de Fichas -->
+        <div class="config-row">
+            <div class="config-texto-bloco">
+                <span class="config-rotulo-regular">Multiplicador de fichas:</span>
+            </div>
+            <div class="tag-grupo" id="grupo-multiplicador">
+                <div class="tag-botao active" data-val="1">1</div>
+                <div class="tag-botao" data-val="2">2</div>
+                <div class="tag-botao" data-val="3">3</div>
+            </div>
+            <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Multiplicador de fichas)">?</button>
+        </div>
+
+        <!-- Seção: Regras Opcionais -->
+        <div class="titulo-secao-direita" style="font-size:18px; margin-top:35px; margin-bottom:10px;">Regras opicionais</div>
+        
+        <div class="opcionais-painel">
+            <div class="opcional-linha">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="chk-regra-vida">
+                    <span class="checkmark"></span>
+                    <span>A horda tem pontos de vida</span>
+                </label>
+                <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (A horda tem pontos de vida)">?</button>
+            </div>
+            <div class="opcional-linha">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="chk-regra-zona">
+                    <span class="checkmark"></span>
+                    <span>permitir que fichas sejam enviadas para a mão, cemitério e exílio</span>
+                </label>
+                <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Mudar fichas de zona)">?</button>
+            </div>
+            <div class="opcional-linha">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="chk-regra-compra">
+                    <span class="checkmark"></span>
+                    <span>Use modo de compra alternativa</span>
+                </label>
+                <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Modo de compra alternativa)">?</button>
+            </div>
+            <div class="opcional-linha">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="chk-regra-inicial">
+                    <span class="checkmark"></span>
+                    <span>A Horda começa com uma permanente aleatória ao invés de todas (ative isso apenas se os decks indicarem).</span>
+                </label>
+                <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Permanente aleatória inicial)">?</button>
+            </div>
+            <div class="opcional-linha">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="chk-regra-marcos">
+                    <span class="checkmark"></span>
+                    <span>Os marcos atuam como um deck secundário</span>
+                </label>
+                <button class="btn-ajuda" data-ajuda="Esta ajuda ainda está em construção. (Marcos como deck secundário)">?</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JANELA MODAL DE AJUDA SUSPENSA (SHOWMODAL) -->
+    <div class="modal-background" id="ajuda-modal">
+        <div class="modal-caixa">
+            <div class="modal-texto" id="ajuda-texto-recipiente">-</div>
+            <div>
+                <button class="btn-modal-fechar" id="btn-fechar-ajuda">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTAINER MODAL EM TELA CHEIA PARA A LISTA VISUAL DE CARTAS -->
+    <div id="visual-lista-container" class="fullscreen-modal">
+        <div class="visual-lista-header">
+            <button id="btn-fechar-visual-lista" class="btn-voltar-lista">Voltar</button>
+        </div>
+        <div id="visual-lista-conteudo" class="visual-lista-scroll">
+            <!-- As seções e cartas serão geradas dinamicamente via JS aqui -->
+        </div>
+    </div>
+
+    <!-- MODAL DE VISUALIZAÇÃO AMPLIADA DA CARTA (ZOOM) -->
+    <div id="zoom-carta-modal" class="zoom-modal">
+        <img id="zoom-carta-img" src="" alt="Carta Ampliada">
+    </div>    
+
+    
+    <script src="home.js"></script>
+</body>
+</html>

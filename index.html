@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Horde Manager - MTG</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body, html {
+            width: 1280px;
+            height: 800px;
+            overflow: hidden;
+            background-color: #05020a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* Resolução travada do tablet em modo paisagem */
+        #viewport-container {
+            width: 1280px;
+            height: 800px;
+            position: relative;
+            overflow: hidden;
+        }
+        iframe {
+            width: 1280px;
+            height: 800px;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="viewport-container">
+        <iframe id="game-frame" src="home.html"></iframe>
+    </div>
+
+    <script src="./decks/zombies/zombies.js"></script>    
+    <script src="./decks/humans/humans.js"></script>    
+    <script>
+        function deckPath() {
+            return "./decks/";
+        }
+         
+        // --- OBJETO DE ESTADO DO JOGO ---
+        // Salva tudo no Parent para que as telas futuras possam ler essas escolhas
+        var gameState = {
+            currentDeckIndex: 0,
+            config: {
+                configRapida: "Selecione uma opção predefinida",
+                pontosVida: "40",
+                tamanhoDeck: "100%",
+                distribuirUniforme: false,
+                tipoDistribuicao: "Padrão",
+                compraTurno: "1",
+                marcosPermanente: [], // Guarda as seleções dinâmicas múltiplas
+                multiplicadorFichas: "1",
+                regrasOpcionais: {
+                    hordaVida: false,
+                    permitirMudarZona: false,
+                    compraAlternativa: false,
+                    comecaPermanenteAleatoria: false,
+                    marcosSecundarios: false
+                }
+            }
+        };
+    </script>
+</body>
+</html>
