@@ -46,7 +46,7 @@
         // Modal de Ajuda
         modalAjuda: document.getElementById('ajuda-modal'),
         modalTexto: document.getElementById('ajuda-texto-recipiente'),
-        btnFecharAjuda: document.getElementById('btn-fechar-ajuda')
+        btnFecharAjuda: document.getElementById('btn-fechar-ajuda'),
     };
 
     /* ==========================================================================
@@ -531,67 +531,97 @@ document.getElementById('btn-fechar-visual-lista').addEventListener('click', () 
 });
 */
 
+
 /* ==========================================================================
-    EVENTOS UNIFICADOS DO MODAL DE ZOOM (MÓVEL, EMULADOR E COMPUTADOR)
+    EVENTOS UNIFICADOS DO MODAL DE ZOOM 
     ========================================================================== */
 
-// Impede o comportamento nativo do navegador de arrastar a imagem como arquivo
-zoomImg.addEventListener('dragstart', (e) => e.preventDefault());
+const carrosselModal = document.getElementById('carrossel-modal');
+const carrosselLinha = document.getElementById('carrossel-linha');
+const btnFecharCarrossel = document.getElementById('btn-fechar-carrossel');
 
-// Captura o início do toque ou clique
-function obterX(e) {
-    // Se for evento de toque (tablet/emulador), pega do e.touches. Se for mouse, pega do e.clientX
-    return e.touches ? e.touches[0].clientX : e.clientX;
+function renderizarSecao(tituloTexto, arrayCartas) {
+    if (arrayCartas.length === 0) return;
+    
+    const titulo = document.createElement('div');
+    titulo.className = "categoria-titulo";
+    titulo.innerText = tituloTexto;
+    listaConteudo.appendChild(titulo);
+    
+    const grid = document.createElement('div');
+    grid.className = "cartas-grid";
+    arrayCartas.forEach(carta => {
+        cartasAtuaisFiltradas.push(carta);
+        const globalIndex = cartasAtuaisFiltradas.length - 1;
+        
+        const box = document.createElement('div');
+        box.className = "carta-item";
+        const img = document.createElement('img');
+        const caminhoLocal = parent.deckPath() + carta.Imagem;
+        img.src = carta.Url;
+        
+        img.onerror = function() {
+            if (this.src !== caminhoLocal) this.src = caminhoLocal;
+        };
+        img.addEventListener('click', () => {
+            abrirCarrosselNoIndex(globalIndex);
+        });
+        
+        box.appendChild(img);
+        grid.appendChild(box);
+    });
+    
+    listaConteudo.appendChild(grid);
 }
 
-// Ouvintes para o Início do movimento (Toque e Mouse)
-zoomModal.addEventListener('touchstart', (e) => {
-    touchStartX = obterX(e);
-});
-zoomModal.addEventListener('mousedown', (e) => {
-    touchStartX = obterX(e);
-});
+function abrirCarrosselNoIndex(indexInicial) {
+    // 1. Limpa qualquer conteúdo residual anterior
+    carrosselLinha.innerHTML = "";
 
-// Ouvintes para o Fim do movimento (Toque e Mouse)
-function processarFimMovimento(e, clientXFinal) {
-    const diffX = touchStartX - clientXFinal;
+    // 2. Monta dinamicamente a estrutura das cartas lado a lado
+    cartasAtuaisFiltradas.forEach((carta) => {
+        const itemBox = document.createElement('div');
+        itemBox.className = "carrossel-item";
 
-    if (Math.abs(diffX) > 60) { // Sensibilidade do arrasto
-        if (diffX > 0) {
-            // Arrastou para a frente (próxima carta)
-            if (indiceCartaZoom < cartasAtuaisFiltradas.length - 1) {
-                indiceCartaZoom++;
-                atualizarImagemZoom();
-            }
-        } else {
-            // Arrastou para trás (carta anterior)
-            if (indiceCartaZoom > 0) {
-                indiceCartaZoom--;
-                atualizarImagemZoom();
-            }
-        }
-    } else {
-        // Se não houve arrasto significativo, foi apenas um toque/clique para fechar
-        // Garante o fechamento se clicar na área escura fora da imagem da carta
-        if (e.target === zoomModal) {
-            zoomModal.style.display = "none";
-        }
-    }
+        const img = document.createElement('img');
+        const caminhoLocal = parent.deckPath() + carta.Imagem;
+        img.src = carta.Url;
+        
+        // Fallback caso a imagem online falhe no carregamento do tablet
+        img.onerror = function() {
+            if (this.src !== caminhoLocal) this.src = caminhoLocal;
+        };
+
+        itemBox.appendChild(img);
+        carrosselLinha.appendChild(itemBox);
+    });
+
+    // 3. Exibe o modal na tela
+    carrosselModal.style.display = "flex";
+
+    // 4. Cálculo matemático para mover o scroll exatamente para a carta clicada
+    // Largura de cada carta (524px) + margens se houver.
+    //const larguraCard = 524; 
+    //carrosselLinha.scrollLeft = indexInicial * larguraCard;
+    const itemElement = carrosselLinha.querySelector('.carrossel-item');
+    const larguraCard = itemElement ? itemElement.getBoundingClientRect().width : 0;
+    const espacoGap = 40;         
+    carrosselLinha.scrollLeft = indexInicial * (larguraCard + espacoGap);
 }
 
-// Vincula o fim do toque (Tablet / Emulador)
-zoomModal.addEventListener('touchend', (e) => {
-    // No touchend, as coordenadas ficam no changedTouches
-    const xFinal = e.changedTouches ? e.changedTouches[0].clientX : touchStartX;
-    processarFimMovimento(e, xFinal);
-});
+function fecharCarrossel() {
+    // Esconde o modal alterando o display para none
+    carrosselModal.style.display = "none";
+    
+    // Limpa a linha interna para não acumular elementos HTML duplicados na próxima abertura
+    carrosselLinha.innerHTML = "";
+}
 
-// Vincula o fim do clique (Computador normal)
-zoomModal.addEventListener('mouseup', (e) => {
-    // Evita duplicar a execução se o navegador disparar touch e mouse juntos
-    if (e.changedTouches) return; 
-    processarFimMovimento(e, e.clientX);
-});
+document.getElementById('btn-fechar-carrossel').addEventListener('click', fecharCarrossel);
+
+/* ==========================================================================
+    FIM: EVENTOS UNIFICADOS DO MODAL DE ZOOM 
+    ========================================================================== */
 
 /* ==========================================================================
     VÍNCULOS DE ATIVAÇÃO DOS BOTÕES DA LISTA VISUAL
@@ -603,3 +633,6 @@ document.getElementById('btn-ver-lista').addEventListener('click', abrirListaVis
 document.getElementById('btn-fechar-visual-lista').addEventListener('click', () => {
     listaContainer.style.display = "none";
 });
+/* ==========================================================================
+    FIM: VÍNCULOS DE ATIVAÇÃO DOS BOTÕES DA LISTA VISUAL
+   ========================================================================== */

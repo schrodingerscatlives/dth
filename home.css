@@ -511,25 +511,76 @@ body {
     object-fit: fill;
 }
 
+
 /* ==========================================================================
-   MODAL DE ZOOM EM SUPER RESOLUÇÃO
-   ========================================================================== */
-.zoom-modal {
+MODAL CARROSSEL HORIZONTAL DE CARTAS (ZOOM INTEGRADO)
+========================================================================== */
+
+/* Fundo escuro, rolagem nativa e centralização via scroll-snap */
+.carrossel-modal {
     position: fixed;
     top: 0;
     left: 0;
-    width: 1280px;
-    height: 800px;
-    background: rgba(0, 0, 0, 0.92);
+    width: 100vw;
+    height: 100vh;
+    background: rgba(4, 2, 8, 0.95);
+    display: none;
     z-index: 11000;
-    display: none; /* Controlado via JS */
-    justify-content: center;
-    align-items: center;
 }
 
-#zoom-carta-img {
-    height: 760px; /* Ocupa quase toda a tela verticalmente mantendo proporções */
-    width: auto;
-    border-radius: 25px;
-    box-shadow: 0 0 30px rgba(138, 79, 214, 0.6);
+.carrossel-linha {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 40px; 
+    padding: 0 calc(50vw - (90vh * 0.708) / 2);
 }
+
+.carrossel-item {
+    flex-shrink: 0;
+    width: auto;
+    height: 90vh;
+    scroll-snap-align: center;
+    display: flex;
+    align-items: center;    
+}
+
+.carrossel-item img {
+    /* Força a imagem a ocupar 100% da altura do item e manter a proporção */
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.btn-fechar-carrossel {
+    position: fixed;
+    top: 25px;
+    right: 30px;
+    background: rgba(138, 79, 214, 0.25);
+    border: 1px solid #8a4fd6;
+    color: #ffffff;
+    font-size: 38px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 12000; /* Fica acima de tudo */
+    transition: background-color 0.15s;
+    line-height: 1;
+    padding-bottom: 4px; /* Ajuste fino vertical do caractere '×' */
+}
+
+.btn-fechar-carrossel:active {
+    background-color: #8a4fd6;
+}
+
+/* ==========================================================================
+FIM: MODAL CARROSSEL HORIZONTAL DE CARTAS (ZOOM INTEGRADO)
+========================================================================== */

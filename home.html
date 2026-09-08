@@ -211,10 +211,22 @@
     </div>
 
     <!-- MODAL DE VISUALIZAÇÃO AMPLIADA DA CARTA (ZOOM) -->
+    <!-- 
     <div id="zoom-carta-modal" class="zoom-modal">
         <img id="zoom-carta-img" src="" alt="Carta Ampliada">
     </div>    
+    -->
 
+    <!-- NOVO CONTAINER CARROSSEL DE TELA CHEIA (ZOOM HORIZONTAL) -->
+    <div id="carrossel-modal" class="carrossel-modal">
+        <!-- Botão de fechar fixo no canto superior direito -->
+        <button id="btn-fechar-carrossel" class="btn-fechar-carrossel">&times;</button>
+        
+        <!-- Linha única que conterá todas as cartas lado a lado -->
+        <div id="carrossel-linha" class="carrossel-linha">
+            <!-- As imagens das cartas e os espaçadores serão gerados dinamicamente via JS aqui -->
+        </div>
+    </div>    
     
     <script src="home.js"></script>
 </body>
