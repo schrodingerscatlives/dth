@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Board Layout</title>
+    <link rel="stylesheet" href="board.css">
+</head>
+<body>
+
+    <!-- Header Principal -->
+    <header class="main-header">
+        
+        <!-- Seção Esquerda: Ações e Ferramentas -->
+        <div class="header-section header-left">
+            <button type="button" id="btn-close"        class="btn-icon" title="Voltar para a página inicial" aria-label="Voltar para a página inicial">❌</button>
+            <button type="button" id="btn-undo"         class="btn-icon" title="Desfazer ação" aria-label="Desfazer ação">↩️</button>
+            <button type="button" id="btn-redo"         class="btn-icon" title="Refazer ação" aria-label="Refazer ação">↪️</button>
+            <button type="button" id="btn-draw"         class="btn-icon" title="Comprar uma carta" aria-label="Comprar uma carta">🎴</button>
+            <!--            
+            <button type="button" id="btn-bounce"       class="btn-icon" title="Devolver para a mão" aria-label="Devolver para a mão">👋</button>
+            <button type="button" id="btn-add-counter"  class="btn-icon" title="Adicionar Marcador" aria-label="Adicionar Marcador">➕</button>
+            <button type="button" id="btn-rem-counter"  class="btn-icon" title="Remover marcador" aria-label="Remover marcador">➖</button>            
+            -->
+            <input type="radio" id="btn-bounce" name="action-toggle" class="btn-toggle-input">
+            <label for="btn-bounce" class="btn-icon btn-toggle" title="Devolver para a mão" aria-label="Devolver para a mão">👋</label>
+
+            <input type="radio" id="btn-add-counter" name="action-toggle" class="btn-toggle-input">
+            <label for="btn-add-counter" class="btn-icon btn-toggle" title="Adicionar Marcador" aria-label="Adicionar Marcador">➕</label>
+
+            <input type="radio" id="btn-rem-counter" name="action-toggle" class="btn-toggle-input">
+            <label for="btn-rem-counter" class="btn-icon btn-toggle" title="Remover marcador" aria-label="Remover marcador">➖</label>            
+            
+            <button type="button" id="btn-board-wipe"   class="btn-icon" title="Destruir todas as Criaturas" aria-label="Destruir todas as Criaturas">💥</button>
+            <button type="button" id="btn-show-exile"   class="btn-icon" title="Ver o exílio" aria-label="Ver o exílio">🛣️</button>
+            <button type="button" id="btn-show-hand"    class="btn-icon" title="Ver a mão" aria-label="Ver a mão">🖐️</button>
+        </div>
+
+        <!-- Seção Central: Cartas de Atalho/Visão Geral -->
+        <div class="header-section header-center">
+            <button type="button" class="header-card-btn">
+                <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Carta Atalho 1">
+            </button>
+            <button type="button" class="header-card-btn">
+                <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Carta Atalho 2">
+            </button>
+        </div>
+
+        <!-- Seção Direita: Controles de Turno -->
+        <div class="header-section header-right">
+            <span class="turn-label">Turno n</span>
+            <button type="button" class="btn-new-turn">Novo Turno</button>
+        </div>
+
+    </header>
+
+    <!-- Conteúdo Principal do Tabuleiro -->
+    <main class="board-container">
+
+        <!-- Primeira Linha: Área de Criaturas -->
+        <section class="board-row creatures-row">
+            <span class="section-title">Criaturas (3)</span>
+            <div class="cards-scroll-area">
+                <div class="card-item">
+                    <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Criatura 1">
+                </div>
+                <div class="card-item">
+                    <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Criatura 2">
+                </div>
+                <div class="card-item">
+                    <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Criatura 3">
+                </div>
+            </div>
+        </section>
+
+        <!-- Segunda Linha: Dividida em Duas Colunas Principal -->
+        <section class="board-row split-row">
+            
+            <!-- Coluna 1: Não Criaturas -->
+            <div class="column non-creatures-column">
+                <span class="section-title">Não criaturas (1)</span>
+                <div class="cards-scroll-area">
+                    <div class="card-item">
+                        <img src="https://cards.scryfall.io/display/front/8/f/8f8a75da-ea3c-43e7-9d32-1c92f8ec0fd2.webp" alt="Não Criatura 1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Decks, Contadores e Cemitério/Exílio -->
+            <div class="column deck-zone-column">
+                
+                <!-- Sub-coluna 1: Deck com Botão Reveal -->
+                <div class="deck-slot">
+                    <div class="card-with-overlay">
+                        <img src="https://i.redd.it/d5nbdcb1pzhb1.jpg" alt="Verso da Carta - Deck">
+                        <span class="overlay-text">83</span>
+                    </div>
+                    <button type="button" class="btn-reveal">Revelar Topo</button>
+                </div>
+
+                <!-- Sub-coluna 2: Carta com Contador -->
+                <div class="deck-slot">
+                    <div class="card-with-overlay">
+                        <img src="https://cards.scryfall.io/grid/front/8/2/82e4675f-ebec-483f-a111-b505629760fd.webp" alt="Carta no Cemitério/Exílio">
+                        <span class="overlay-text">5</span>
+                    </div>
+                </div>
+
+                <!-- Sub-coluna 3: Slot Compacto de Contador -->
+                <div class="deck-slot compact-slot">
+                    <div class="counter-box">
+                        <span class="counter-text">60</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="board.js"></script>
+</body>
+</html>

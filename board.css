@@ -1,0 +1,356 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --bg-main: #3a2e42;          /* Roxo escuro de fundo principal */
+    --bg-header: #2d2334;        /* Roxo mais escuro para o cabeçalho */
+    --bg-card-slot: #1c1522;     /* Dark slot para o contador 60 */
+    --text-primary: #ffffff;     /* Texto principal claro */
+    --text-muted: #d0c8d8;       /* Texto secundário/títulos */
+    --btn-hover: #4e3f59;        /* Hover para botões de ícone */
+    --btn-bg-light: #ffffff;     /* Botão branco para 'Novo Turno' */
+    --btn-text-dark: #2d2334;    /* Texto escuro para botão 'Novo Turno' */
+    --btn-bg-dark: #1f1825;      /* Botão escuro para 'Revelar Topo' */
+    
+    /* Calcula a altura exata máxima das cartas com base na janela do navegador */
+    --card-height: calc((100vh - 50px - 32px - 60px) / 2); 
+    --card-width: calc(var(--card-height) * 0.714);          /* Mantém proporção padrão de carta Magic */
+}
+
+/* Trava a tela na altura exata da janela (sem rolagem vertical da página) */
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   1. HEADER PRINCIPAL
+   ========================================================================== */
+.main-header {
+    background-color: var(--bg-header);
+    height: 50px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.header-section {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.header-left {
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.btn-icon {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn-icon:hover {
+    background-color: var(--btn-hover);
+}
+
+.header-center {
+    justify-content: center;
+    gap: 8px;
+}
+
+.header-card-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.header-card-btn:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.header-card-btn img {
+    height: 36px;
+    width: auto;
+    border-radius: 3px;
+    display: block;
+}
+
+.header-right {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.turn-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.btn-new-turn {
+    background-color: var(--btn-bg-light);
+    color: var(--btn-text-dark);
+    border: none;
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.btn-new-turn:hover {
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   2. CONTEÚDO PRINCIPAL (TABULEIRO)
+   ========================================================================== */
+.board-container {
+    flex: 1;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    height: calc(100vh - 50px);
+    overflow: hidden;
+}
+
+.board-row {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+}
+
+/* Áreas de Rolagem Horizontal das Cartas */
+.cards-scroll-area {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: flex-start;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 6px;
+}
+
+.cards-scroll-area::-webkit-scrollbar {
+    height: 5px;
+}
+
+.cards-scroll-area::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
+
+.cards-scroll-area::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 3px;
+}
+
+.card-item {
+    flex-shrink: 0;
+    height: min(var(--card-height), 360px);
+    width: auto;
+    aspect-ratio: 0.714;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease;
+}
+
+.card-item:hover {
+    transform: translateY(-4px);
+}
+
+.card-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+/* ==========================================================================
+   3. SEGUNDA LINHA (DIVIDIDA EM DUAS COLUNAS)
+   ========================================================================== */
+.split-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-start;
+    flex: 1;
+    min-height: 0;
+}
+
+.non-creatures-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+/* Coluna Direita (Zonas de Deck / Exílio / Contadores) */
+.deck-zone-column {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 16px;
+    padding-top: 20px;
+    height: 100%;
+}
+
+.deck-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+}
+
+.card-with-overlay {
+    position: relative;
+    height: min(calc(var(--card-height) - 30px), 330px);
+    aspect-ratio: 0.714;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-with-overlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+}
+
+.overlay-text {
+    position: absolute;
+    font-size: min(4vw, 52px);
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9), 0 0 6px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Botão "Revelar Topo" */
+.btn-reveal {
+    background-color: var(--btn-bg-dark);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    padding: 5px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-reveal:hover {
+    background-color: var(--btn-hover);
+}
+
+/* Slot Compacto (Última Coluna - Contador 60) */
+.compact-slot {
+    width: auto;
+}
+
+.counter-box {
+    height: min(calc(var(--card-height) - 30px), 330px);
+    aspect-ratio: 0.4;
+    background-color: var(--bg-card-slot);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0 16px;
+}
+
+.counter-text {
+    font-size: min(3.5vw, 44px);
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+/* Botões que na verdade são checkboxes */
+/* Esconde o elemento do checkbox real */
+.btn-toggle-input {
+    display: none;
+}
+
+/* Garante a aparência idêntica ao botão original no estado normal */
+.btn-toggle {
+    user-select: none;
+    transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+}
+
+/* Estilo do botão SELECIONADO (pressionado/down) */
+.btn-toggle-input:checked + .btn-toggle {
+    background-color: #614675;                  /* Roxo mais claro e destacado */
+    color: #ffffff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);  /* Efeito de profundidade/pressionado */
+    transform: translateY(1px);                  /* Leve afundamento visual */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+/* FIM: Botões que na verdade são checkboxes */

@@ -3,6 +3,16 @@
  * Script de gerenciamento da interface de configuração e sincronização com o Parent
  */
 
+var deckSelecionado;
+function LerDeckSelecionado() {
+    return deckSelecionado;
+}
+
+var configSelecionada;
+function LerConfigSelecionada() {
+    return configSelecionada;
+}
+
 (function () {
     // Atalho seguro para acessar o escopo global do container principal (index.html)
     const raiz = window.parent;
@@ -285,11 +295,16 @@
 
         // Ação do Botão Iniciar Partida
         dom.btnIniciar.addEventListener('click', () => {
-            const deckSelecionado = raiz.Deck[raiz.gameState.currentDeckIndex].Titulo;
-            alert(`Preparando Horda...\nIniciando partida com o deck: ${deckSelecionado}`);
+            //const deckSelecionado = raiz.Deck[raiz.gameState.currentDeckIndex].Titulo;            
+            //alert(`Preparando Horda...\nIniciando partida com o deck: ${deckSelecionado}`);
+
+            deckSelecionado = raiz.Deck[raiz.gameState.currentDeckIndex];
+            configSelecionada = raiz.gameState.config;
+            
+            window.parent.document.getElementById('game-frame').src = 'board.html';
             
             // Console log para verificação do desenvolvedor durante os testes no navegador
-            console.log("Configurações Finais prontas no Parent:", raiz.gameState.config);
+            //console.log("Configurações Finais prontas no Parent:", raiz.gameState.config);
         });
     }
 
