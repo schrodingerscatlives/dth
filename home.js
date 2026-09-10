@@ -3,16 +3,6 @@
  * Script de gerenciamento da interface de configuração e sincronização com o Parent
  */
 
-var deckSelecionado;
-function LerDeckSelecionado() {
-    return deckSelecionado;
-}
-
-var configSelecionada;
-function LerConfigSelecionada() {
-    return configSelecionada;
-}
-
 (function () {
     // Atalho seguro para acessar o escopo global do container principal (index.html)
     const raiz = window.parent;
@@ -298,8 +288,8 @@ function LerConfigSelecionada() {
             //const deckSelecionado = raiz.Deck[raiz.gameState.currentDeckIndex].Titulo;            
             //alert(`Preparando Horda...\nIniciando partida com o deck: ${deckSelecionado}`);
 
-            deckSelecionado = raiz.Deck[raiz.gameState.currentDeckIndex];
-            configSelecionada = raiz.gameState.config;
+            //parent.DefinirDeckSelecionado(   raiz.Deck[raiz.gameState.currentDeckIndex] );
+            //parent.DefinirConfigSelecionada( raiz.gameState.config );
             
             window.parent.document.getElementById('game-frame').src = 'board.html';
             
@@ -321,30 +311,6 @@ function LerConfigSelecionada() {
 
 })();
 
-/*
-document.getElementById('btn-ver-lista').addEventListener('click', () => {
-    const indexAtual = parent.gameState.currentDeckIndex;
-    const deckAtual = parent.Deck[indexAtual];
-    
-    if (!deckAtual || !deckAtual.Carta || deckAtual.Carta.length === 0) {
-        exibirJanelaAjuda("A lista deste deck ainda está vazia.");
-        return;
-    }
-
-    // Mapeia o nome das imagens ou propriedades para listar as cartas
-    // Como as cartas ainda não têm uma propriedade 'Nome', vamos usar o nome do arquivo para testar:
-    let resumoCartas = `Lista de Cartas do Deck (${deckAtual.Titulo}):\n\n`;
-    
-    deckAtual.Carta.forEach((carta, i) => {
-        // Extrai um nome amigável baseado no nome do arquivo da imagem
-        const nomeAmigavel = carta.Imagem.split('/').pop().replace('.png', '').replace('_', ' ');
-        resumoCartas += `- 1x ${nomeAmigavel.toUpperCase()}\n`;
-    });
-
-    exibirJanelaAjuda(resumoCartas);
-});
-*/
-
 
 /* ==========================================================================
     ROTINA VISUAL DE EXIBIÇÃO DE CARTAS E SISTEMA DE NAVEGAÇÃO / ZOOM
@@ -359,39 +325,6 @@ let indiceCartaZoom = 0;
 let pressTimer = null;
 let touchStartX = 0;
 
-// Gera a lista visual categorizada com fallback de imagem offline
-/*
-function abrirListaVisualCartas() {
-    const deckAtual = parent.Deck[parent.gameState.currentDeckIndex];
-    if (!deckAtual) return;
-
-    listaConteudo.innerHTML = "";
-    cartasAtuaisFiltradas = [];
-
-    // 1. Filtragem por Categorias
-    // Criaturas (Creature = true e Token/Ficha = false)
-    const criaturas = deckAtual.Carta.filter(c => c.Criatura && !c.Ficha);
-    
-    // Artefatos e Encantamentos (Artefato ou Encantamento, removendo duplicadas com Criaturas listadas antes)
-    const criaturaIds = new Set(criaturas);
-    const artefatosEncantamentos = deckAtual.Carta.filter(c => (c.Artefato || c.Encantamento) && !criaturaIds.has(c));
-
-    // Demais cartas (Tudo que sobrou no deck principal)
-    const jaListadas = new Set([...criaturas, ...artefatosEncantamentos]);
-    const outras = deckAtual.Carta.filter(c => !jaListadas.has(c));
-
-    // Linha de Criação (Array 'Criar')
-    const linhaCriar = deckAtual.Criar || [];
-
-    // 2. Renderização das Seções
-    renderizarSecao(`Criaturas (${criaturas.length})`, criaturas);
-    renderizarSecao(`Artefatos e Encantamentos (${artefatosEncantamentos.length})`, artefatosEncantamentos);
-    renderizarSecao(`Outras cartas (${outras.length})`, outras);
-    renderizarSecao(`Linha de Criação de Fichas (${linhaCriar.length})`, linhaCriar);
-
-    listaContainer.style.display = "flex";
-}
-*/
 
 // Gera a lista visual categorizada com fallback de imagem offline
 function abrirListaVisualCartas() {
@@ -498,54 +431,6 @@ function atualizarImagemZoom() {
         if (this.src !== caminhoLocal) this.src = caminhoLocal;
     };
 }
-
-/*
-// Captura o início do arrasto no tablet
-zoomModal.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-});
-
-// Detecta a direção do arrasto (Swipe) no encerramento do toque
-zoomModal.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].clientX;
-    const diffX = touchStartX - touchEndX;
-
-    if (Math.abs(diffX) > 60) { // Sensibilidade do arrasto
-        if (diffX > 0) {
-            // Arrastou para a frente (próxima carta)
-            if (indiceCartaZoom < cartasAtuaisFiltradas.length - 1) {
-                indiceCartaZoom++;
-                atualizarImagemZoom();
-            }
-        } else {
-            // Arrastou para trás (carta anterior)
-            if (indiceCartaZoom > 0) {
-                indiceCartaZoom--;
-                atualizarImagemZoom();
-            }
-        }
-    } else {
-        // Se foi apenas um clique simples fora da carta, fecha o zoom
-        if (e.target !== zoomImg) {
-            zoomModal.style.display = "none";
-        }
-    }
-});
-
-// Suporte a fechamento com clique no computador
-zoomModal.addEventListener('click', (e) => {
-    if (e.target !== zoomImg && !('ontouchstart' in window)) {
-        zoomModal.style.display = "none";
-    }
-});
-
-// Vincula a abertura no botão "Ver a lista" existente na rotina original de inicialização
-document.getElementById('btn-ver-lista').addEventListener('click', abrirListaVisualCartas);
-document.getElementById('btn-fechar-visual-lista').addEventListener('click', () => {
-    listaContainer.style.display = "none";
-});
-*/
-
 
 /* ==========================================================================
     EVENTOS UNIFICADOS DO MODAL DE ZOOM 

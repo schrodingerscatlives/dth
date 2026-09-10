@@ -44,6 +44,10 @@
         function deckPath() {
             return "./decks/";
         }
+        
+        function LerDeck(indice) {
+            return Deck[indice];
+        }  
          
         // --- OBJETO DE ESTADO DO JOGO ---
         // Salva tudo no Parent para que as telas futuras possam ler essas escolhas
@@ -67,6 +71,10 @@
                 }
             }
         };
+
+        function LerConfigSelecionada() {
+            return gameState;
+        }          
     </script>
 </body>
 </html>

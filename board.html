@@ -32,24 +32,36 @@
             <label for="btn-rem-counter" class="btn-icon btn-toggle" title="Remover marcador" aria-label="Remover marcador">➖</label>            
             
             <button type="button" id="btn-board-wipe"   class="btn-icon" title="Destruir todas as Criaturas" aria-label="Destruir todas as Criaturas">💥</button>
-            <button type="button" id="btn-show-exile"   class="btn-icon" title="Ver o exílio" aria-label="Ver o exílio">🛣️</button>
-            <button type="button" id="btn-show-hand"    class="btn-icon" title="Ver a mão" aria-label="Ver a mão">🖐️</button>
+            
+            <button type="button" id="btn-show-exile"   class="deck-slot" style="position: relative;" title="Ver o exílio" aria-label="Ver o exílio">
+                <span class="btn-icon">🌌</span>
+                <span class="overlay-text-btns" id="lbl-total-exilio">0</span>                
+            </button> <!--🛣️-->
+            <button type="button" id="btn-show-hand"    class="deck-slot" style="position: relative;" title="Ver a mão" aria-label="Ver a mão">
+                <span class="btn-icon">🖐️</span>
+                <span class="overlay-text-btns" id="lbl-total-mao">0</span>                
+            </button>
         </div>
 
-        <!-- Seção Central: Cartas de Atalho/Visão Geral -->
-        <div class="header-section header-center">
+        <!-- Seção Central: Criar Fichas -->
+        <!-- 
+        <div class="header-section header-center">            
             <button type="button" class="header-card-btn">
                 <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Carta Atalho 1">
             </button>
             <button type="button" class="header-card-btn">
                 <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Carta Atalho 2">
-            </button>
+            </button>            
         </div>
+        -->
+        <div class="header-section header-center" id="container-fichas">
+            <!-- Os botões das fichas serão inseridos dinamicamente aqui -->
+        </div>        
 
         <!-- Seção Direita: Controles de Turno -->
         <div class="header-section header-right">
-            <span class="turn-label">Turno n</span>
-            <button type="button" class="btn-new-turn">Novo Turno</button>
+            <span class="turn-label">Turno 0</span>
+            <button type="button" id="btn-new-turn" class="btn-new-turn">Novo Turno</button>
         </div>
 
     </header>
@@ -59,8 +71,9 @@
 
         <!-- Primeira Linha: Área de Criaturas -->
         <section class="board-row creatures-row">
-            <span class="section-title">Criaturas (3)</span>
+            <span class="section-title">Criaturas (0)</span>
             <div class="cards-scroll-area">
+                <!-- 
                 <div class="card-item">
                     <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Criatura 1">
                 </div>
@@ -70,6 +83,7 @@
                 <div class="card-item">
                     <img src="https://cards.scryfall.io/display/front/1/7/17f001ab-514b-49e7-a657-b2872ad7a1de.webp" alt="Criatura 3">
                 </div>
+                -->
             </div>
         </section>
 
@@ -78,11 +92,13 @@
             
             <!-- Coluna 1: Não Criaturas -->
             <div class="column non-creatures-column">
-                <span class="section-title">Não criaturas (1)</span>
+                <span class="section-title">Não criaturas (0)</span>
                 <div class="cards-scroll-area">
+                    <!-- 
                     <div class="card-item">
                         <img src="https://cards.scryfall.io/display/front/8/f/8f8a75da-ea3c-43e7-9d32-1c92f8ec0fd2.webp" alt="Não Criatura 1">
                     </div>
+                    -->
                 </div>
             </div>
 
@@ -92,24 +108,33 @@
                 <!-- Sub-coluna 1: Deck com Botão Reveal -->
                 <div class="deck-slot">
                     <div class="card-with-overlay">
-                        <img src="https://i.redd.it/d5nbdcb1pzhb1.jpg" alt="Verso da Carta - Deck">
-                        <span class="overlay-text">83</span>
+                        <!-- <img src="https://i.redd.it/d5nbdcb1pzhb1.jpg" alt="Verso da Carta - Deck"> -->
+                        <img id="img-deck" src="./imgs/verso.jpg" alt="Verso da Carta - Deck">
+                        <span class="overlay-text" id="current-deck-size">100</span>
                     </div>
                     <button type="button" class="btn-reveal">Revelar Topo</button>
                 </div>
 
                 <!-- Sub-coluna 2: Carta com Contador -->
+                <!--
                 <div class="deck-slot">
                     <div class="card-with-overlay">
                         <img src="https://cards.scryfall.io/grid/front/8/2/82e4675f-ebec-483f-a111-b505629760fd.webp" alt="Carta no Cemitério/Exílio">
                         <span class="overlay-text">5</span>
                     </div>
                 </div>
+                -->
+                <div class="deck-slot">
+                    <div class="card-with-overlay" id="container-cemiterio" style="cursor: pointer;">
+                        <img id="img-cemiterio" src="" alt="Carta no Cemitério">
+                        <span class="overlay-text" id="lbl-total-cemiterio">0</span>
+                    </div>
+                </div>                
 
                 <!-- Sub-coluna 3: Slot Compacto de Contador -->
                 <div class="deck-slot compact-slot">
-                    <div class="counter-box">
-                        <span class="counter-text">60</span>
+                    <div class="counter-box" id="box-pontos-vida" style="position: relative; cursor: pointer;">
+                        <span class="counter-text" id="lbl-pontos-vida">60</span>
                     </div>
                 </div>
 

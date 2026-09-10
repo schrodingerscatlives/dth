@@ -354,3 +354,292 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 /* FIM: Botões que na verdade são checkboxes */
+
+
+
+/* Animação de esvanecimento e leve subida da ficha */
+@keyframes triturarFichaFade {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.85) translateY(-10px);
+    }
+}
+
+.ficha-fade-out {
+    animation: triturarFichaFade 1.4s ease-out forwards;
+    pointer-events: none; /* Impede que a animação bloqueie cliques */
+}
+
+
+
+
+
+
+/*
+formatar a sobreposição dos contadores e textos nas cartas do campo
+*/
+/* Container base da carta agrupada no campo */
+.card-field-item {
+    position: relative;
+    display: inline-block;
+    width: 100px;  /* Ajuste a largura conforme o seu layout */
+    height: 140px; /* Ajuste a altura conforme o seu layout */
+    margin: 4px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.card-field-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Camada de sobreposição centralizada */
+.card-overlay-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*background: rgba(0, 0, 0, 0.35);*/ /* Leve escurecimento para dar leitura às métricas */
+    background: transparent; /* Remove o escurecimento e deixa o fundo 100% nítido */
+    pointer-events: none;
+}
+
+/* Texto 'Defensor' */
+.lbl-defensor {
+    font-size: 22px;
+    font-weight: bold;
+    /*color: #ffda6a;*/
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+/* Quantidade de cópias idênticas (n) */
+.lbl-copias-count {
+    font-size: 56px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    line-height: 1;
+}
+
+/* Círculo cinza de 'Contadores' */
+.circle-contadores {
+    margin-top: 4px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    background-color: #5a5a6e;
+    border: 1px solid #a0a0b5;
+    border-radius: 50%;
+    
+    /* Zera qualquer herança que empurre o texto */
+    padding: 0 !important;
+    line-height: 0 !important;
+    box-sizing: border-box;
+    
+    /* Centralização em Flexbox */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    
+    color: #ffffff;
+    font-size: 28px; /* Reduzido levemente de 32px para 28px para caber com folga */
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    
+    position: relative; /* Para alinhamento de precisão */
+    overflow: hidden;
+}
+
+/* Span interno para travar a renderização do número */
+.circle-contadores span {
+    display: block;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: translateY(-1px); /* Ajuste fino de 1px para centralizar a fonte verticalmente */
+}
+/*
+FIM: formatar a sobreposição dos contadores e textos nas cartas do campo
+*/
+
+
+
+/* Modal de Resolução da Pilha */
+/* Modal de Resolução da Pilha (Cartas em Tamanho Máximo) */
+.modal-pilha-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(10, 6, 18, 0.95);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000000;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.modal-pilha-content {
+    position: relative;
+    width: 99vw;
+    height: 98vh; /* Ocupa o limite da tela */
+    background-color: #161122;
+    border: 2px solid #8a4fd6;
+    border-radius: 12px;
+    padding: 12px 16px 16px 16px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.modal-pilha-close {
+    position: absolute;
+    top: 8px;
+    right: 18px;
+    color: #cbb4e6;
+    font-size: 38px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10;
+    transition: transform 0.15s, color 0.15s;
+}
+
+.modal-pilha-close:hover {
+    color: #ffffff;
+    transform: scale(1.2);
+}
+
+.modal-pilha-title {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Fila Horizontal Extra Larga */
+.container-pilha-cartas {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 32px; /* Maior espaçamento entre cartas gigantes */
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-grow: 1;
+    padding: 10px 24px 16px 24px;
+    scrollbar-width: auto;
+    scrollbar-color: #8a4fd6 #0d0a14;
+}
+
+/* Estilização da Scrollbar para Navegadores Chromium/Webkit */
+.container-pilha-cartas::-webkit-scrollbar {
+    height: 12px;
+}
+
+.container-pilha-cartas::-webkit-scrollbar-track {
+    background: #0d0a14;
+    border-radius: 6px;
+}
+
+.container-pilha-cartas::-webkit-scrollbar-thumb {
+    background: #8a4fd6;
+    border-radius: 6px;
+}
+
+/* Item da Carta - Escala Máxima */
+.card-pilha-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.tag-origem {
+    background-color: #3b235d;
+    color: #e2d5f3;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 20px;
+    border-radius: 14px;
+    border: 1px solid #9a5ee6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    flex-shrink: 0;
+}
+
+/* Dimensão Máxima da Imagem da Carta */
+.card-pilha-item img {
+    width: 400px;  /* Largura em resolução máxima */
+    height: 560px; /* Altura proporcional ao formato padrão de MTG */
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-pilha-item img:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 36px rgba(138, 79, 214, 0.45);
+}
+/* FIM: Modal de Resolução da Pilha */
+
+/* Botoes de ver o exilio e ver a mao*/
+#btn-show-exile,
+#btn-show-hand {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ajuste dos ícones e número sobreposto */
+.btn-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.overlay-text-btns {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0px 0px 4px #000000, 0px 0px 6px #000000;
+    pointer-events: none;
+}
+
+/* Fim: Botoes de ver o exilio e ver a mao*/
